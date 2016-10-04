@@ -1,0 +1,15 @@
+﻿@model IEnumerable<MvcApplication1.Models.API.SheetUser>
+
+<table>
+    <tr><th>ФИО</th><th>Оценка</th></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.fio</td>
+            <td>@item.value</td>
+        </tr>
+    }
+</table>
+<input type="text" placeholder="Оценка" id="value" />
+<input type="text" placeholder="Ключ" id="key" />
+<button id="sheet">Хочу 5!</button>

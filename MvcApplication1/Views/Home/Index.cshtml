@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+    string title = ViewBag.data.title;
+    string name = ViewBag.data.view;
+    object data = ViewBag.data.data;
+    string token = ViewBag.data.token;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@title</title>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/md5.js"></script>
+@*    <script src="~/Scripts/main.js"></script>*@
+</head>
+<body>
+    <div id="result">
+    @Html.Partial(name, data)
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $('#auth').click(function () {
+        var login = document.getElementById('login').value;
+        var pass = document.getElementById('pass').value;
+        var now = getNowDate();
+        var rnd = Math.random();
+        var auth = md5(login + md5(login + pass) + rnd + now);
+        var data = JSON.stringify({ auth: auth, login: login, rnd: rnd });
+        $.post('Home/Auth', { authData: data }, success);
+    });
+
+    $('#sheet').click(function () {
+        var value;
+        var key;
+        var token;
+        var data = JSON.stringify({ value: f(value, key), token: token });
+        $.post('Home/Sheet', { sheetData: data }, success);
+    });
+
+    function success(data) {
+        $('#result').html(data);
+    }
+
+    function getNowDate() {
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        return (d < 10 ? '0' : '') + d + '.' + (m < 10 ? '0' : '') + m + '.' + y;
+    }
+
+    function f(value, key) {
+        return value;
+    }
+</script>
